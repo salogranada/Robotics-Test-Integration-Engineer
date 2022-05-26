@@ -233,7 +233,6 @@ For extra homework we recommend you create a new branch from the developed one w
 Total possible Extra points: X% -> 5.0. Maximum total grade: X/5.0. Complete the point it doesn't mean you have 5.0, you have at least 3.0 but for the rest of the grade will evaluate the performance and the beauty of your solution. To complete these points, probably you will have to modify messages, services, or even create new ones, also topics subscribers and publishers, maybe services, who knows :smile:
 
 ---
-Good luck, and God saves the Queen.
 
 <p align="center">
   <img height="300" src="https://user-images.githubusercontent.com/39452483/170424558-2efbe421-727f-4825-9d29-16118c1cacf6.gif">
