@@ -126,7 +126,7 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
 
 Wheel Odometry stands for the calculation fo the vehicle motion based on the information provided by wheel encoders which represents the wheel velocities (Directly related with the Robot motion).
 
-For simplicity of our system and controllers, our current chassis (Skid steering) is represented as a differential mobile robot. This representation is widely used in robotics as it keeps thing simple. 
+For simplicity of our system and controllers, our current chassis is represented as a differential mobile robot. This representation is widely used in robotics as it keeps thing simple. 
 
 Our wheel Odometry calculation relies in the data provided by the motors (RPM for extract the velocity and error for handling undesired data); however, we also use the IMU angular velocity to calculate a slip factor and hence improve the overall Odometry. Take care, this node was implemented using `CascadeLifecycleNode` instead of pure `Node`.
 
@@ -197,13 +197,23 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
 
 Respond below in the same solution branch every questions. In case your answer isn't in this file, it'll not be valid:
 
-5. [C++] What is the mean of the number "15" used in the pthread_kill inside the destructor method?
+1. [C++] What is the mean of the number "15" used in the pthread_kill inside the destructor method?
 
-6. [C++] Why are we using UniquePointer instead of SharedPointers to publish a ROS2 message?
+2. [C++] Why are we using UniquePointer instead of SharedPointers to publish a ROS2 message?
 
-7. [C++] Why are we using a m_multi_sound variable? Explain ...
+3. [C++] Why are we using a m_multi_sound variable? Explain ...
 
-8. [C++] Why are we freeing the memory allocated by raw pointer "buff" variable and not freeing the memory allocated by the Shared and Unique Pointers? (HARD)
+4. [C++] Why are we freeing the memory allocated by raw pointer "buff" variable and not freeing the memory allocated by the Shared and Unique Pointers? (HARD)
+
+5. [C++] Why should we use a "member variable" (persistent over the class) to storage the integral error? `m_vx_int_error`
+
+6. [Control] What is the function of the FeedForward?
+
+7. [ROS2] What is the purpose of CascadeLifecycleNode type nodes?
+
+8. [Robotics] Why is a global and a local odometry calculated?
+
+9. [Robotics] If the robot has 4 differential wheels, what type of chassis is it?
 
 10. [Docker] Explain with your own words what is the instructions `apt-get autoremove && apt-get clean -y for?`
 
@@ -227,8 +237,7 @@ For extra homework we recommend you create a new branch from the developed one w
 5. **[+10%/5.0]:** Integrate an Anti Windup based on the max. linear speed 
 6. **[+10%/5.0]:** Play a sound if the RPM feedback increase X value and another when the RPM decrease X value. Define by yourself the X value
 7. **[+20%/5.0]:** Create a Node to fill a `LocationMsg.msg` [message](../robotics/ros2/src/usr_msgs/msg/location/LocationMsg.msg) and publish to a topic `/custom_gps` of the same type using the incoming GPS signals from two topics `/wifi_geo/fix -> from the router gps` and `/fix -> from the main gps` and `/imu/data -> from the IMU`. The `/wifi_geo/fix` has priority over the another one, but this signal is only published sometimes and after 20 seconds without receiving a new message from the wifi side the `/fix` signal take again the place. Note: the `/fix` signal is constantly publishing data.
-
-
+8. **[+5%/5.0]**: Add the `DELETE_BUILD` argument to the `startRobotics.sh` file (check line 61). Options : `--delete-build / -d`. Example: `startRobotics.sh -d 1` will delete the previous generated install, build, and log folders. Use 0 as default value.
 
 Total possible Extra points: X% -> 5.0. Maximum total grade: X/5.0. Complete the point it doesn't mean you have 5.0, you have at least 3.0 but for the rest of the grade will evaluate the performance and the beauty of your solution. To complete these points, probably you will have to modify messages, services, or even create new ones, also topics subscribers and publishers, maybe services, who knows :smile:
 

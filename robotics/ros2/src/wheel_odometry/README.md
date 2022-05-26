@@ -7,8 +7,7 @@ Wheel Odometry
 
 # Wheel Odometry
 Wheel odometry stands for the calculation of the vehicle motion based on the information provided by wheel encoders which represent the wheel velocities (Directly related to the Robot motion).
-
-For simplicity of our system and controllers, our current chassis (Skid steering) is represented as a differential mobile robot. This representation is widely used in robotics as it keeps things simple. 
+For the simplicity of our system and controllers, our current chassis is represented as a differential mobile robot. This representation is widely used in robotics as it keeps things simple. 
 
 Our wheel odometry calculation relies on the data provided by the motors (RPM for extracting the velocity and error for handling undesired data); however, we also use the IMU angular velocity to calculate a slip factor and hence improve the overall odometry.
 
@@ -61,7 +60,7 @@ And so the calculation of the linear and angular velocity:
 
 * **ω** = (V<sub>right</sub> - V<sub>left</sub> ) / track
 
-Finally we can estimate the value of Ẋ and Ẏ and similarly X and Y by integrating the following terms:
+Finally, we can estimate the value of Ẋ and Ẏ and similarly X and Y by integrating the following terms:
 
 * **Ẋ** = V<sub>x</sub> * Cos(θ)
 
