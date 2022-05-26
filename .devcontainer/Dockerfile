@@ -123,11 +123,16 @@ RUN pip3 install -U pip \
     # Add EXTRA DEV Python dependencies in here
     # ------------------------------
     # Tools to check code compliance
-    black~=20.8b1 \
+    typed-ast \
+    black \
+    click \
     pylint~=2.11.1 \
     # ------------------------------
     # Installing basics
     setuptools \
+    # ------------------------------
+    # Plotter Tools
+    matplotlib\
     && rm -rf /home/koda/.cache/pip
 
 # ------------------------------------------------------------------------------
