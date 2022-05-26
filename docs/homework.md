@@ -201,7 +201,7 @@ Respond below in the same solution branch every questions. In case your answer i
 
 2. [C++] Why are we using UniquePointer instead of SharedPointers to publish a ROS2 message?
 
-3. [C++] Why are we using a m_multi_sound variable? Explain ...
+3. [Logic] Why are we using a m_multi_sound variable? Explain ...
 
 4. [C++] Why are we freeing the memory allocated by raw pointer "buff" variable and not freeing the memory allocated by the Shared and Unique Pointers? (HARD)
 
@@ -230,7 +230,7 @@ Next questions is after you finish the project, it doesn't give points but we re
 <!-- ---------------------------------------------------------------------- -->
 ## **EXTRA-HOMEWORK**
 
-For extra homework we recommend you create a new branch from the developed one when you finish the basic points of the homework, you can name this new branch as *feature/extra_homework*, don't forget to push it before the time that it was given.
+For extra homework you should create a new branch from the developed one when you finish the basic points of the homework, you can name this new branch as *feature/extra_homework*, don't forget to push it before the time that it was given.
 
 1. **[+5%/5.0]**: Modify the docker file to source ROS2 and have autocompleted commands like ```ros2 topic list```.
 2. **[+10%/5.0]:** Make that Kiwibot track2.wav don't get distorted. Use: `ros2 topic pub -1 /device/speaker/command std_msgs/Int8 "data: 2"`
@@ -240,6 +240,7 @@ For extra homework we recommend you create a new branch from the developed one w
 6. **[+10%/5.0]:** Play a sound if the RPM feedback increase X value and another when the RPM decrease X value. Define by yourself the X value
 7. **[+20%/5.0]:** Create a Node to fill a `LocationMsg.msg` [message](../robotics/ros2/src/usr_msgs/msg/location/LocationMsg.msg) and publish to a topic `/custom_gps` of the same type using the incoming GPS signals from two topics `/wifi_geo/fix -> from the router gps` and `/fix -> from the main gps` and `/imu/data -> from the IMU`. The `/wifi_geo/fix` has priority over the another one, but this signal is only published sometimes and after 20 seconds without receiving a new message from the wifi side the `/fix` signal take again the place. Note: the `/fix` signal is constantly publishing data.
 8. **[+5%/5.0]**: Add the `DELETE_BUILD` argument to the `startRobotics.sh` file (check line 61). Options : `--delete-build / -d`. Example: `startRobotics.sh -d 1` will delete the previous generated install, build, and log folders. Use 0 as default value.
+9. **[+5%/5.0]**: use `Valgrind` to analyses the `speed_controller` executable. [How to use it](./valgrind_usage.md). Why use `Valgrind`?
 
 Total possible Extra points: X% -> 5.0. Maximum total grade: X/5.0. Complete the point it doesn't mean you have 5.0, you have at least 3.0 but for the rest of the grade will evaluate the performance and the beauty of your solution. To complete these points, probably you will have to modify messages, services, or even create new ones, also topics subscribers and publishers, maybe services, who knows :smile:
 
