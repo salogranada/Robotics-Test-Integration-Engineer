@@ -206,9 +206,6 @@ Reference Image
   <img height="400" src="https://user-images.githubusercontent.com/39452483/170585356-1d7a64e2-7920-465f-985d-2b31f383f2d4.png">
   </p>
 
-### Data Capture
-
-
 ---
 **REMEMBER**: 
 1. If you push just one minute after the time given by email we won't review your project solution (at least, that commit).
