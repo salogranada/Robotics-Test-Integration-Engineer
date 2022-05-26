@@ -1,0 +1,9 @@
+# Service containing a request using a Float Value and a bool response (mainly used in the Screen Board).
+# operation_mode:   [float32](Request):
+#                   Value containing a float.
+# success:          [bool](Response):
+#                   Service request response.
+
+float32 value
+---
+bool success

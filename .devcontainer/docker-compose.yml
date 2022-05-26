@@ -1,0 +1,49 @@
+version: "2.3"
+services:
+  kodencio:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+
+    user: "koda"
+    working_dir: /home/koda
+
+    network_mode: host
+
+    init: true
+    privileged: true
+
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - UDEV=1
+    volumes:
+      - ..:/workspace
+
+      # Forwards the local Docker socket to the container.
+      - /var/run/docker.sock:/var/run/docker.sock
+
+      # Enable GUI environments
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Enable kernel modules (v4l2loopback)
+      - /lib/modules:/lib/modules
+      # Enable creating/reading inside docker new devices
+      - /dev:/dev
+      # Uncomment the next four lines if you will use a ptrace-based debuggers like C++, Go, and Rust.
+      # Add devices to be share in container
+    devices:
+      - /dev/input:/dev/input
+      - /dev/snd:/dev/snd
+
+    cap_add:
+      - SYS_PTRACE
+
+    security_opt:
+      - seccomp:unconfined
+
+    # Overrides default command so things don't shut down after the process ends.
+    # command: sleep infinity 
+    stdin_open: true
+    tty: true
+
+    command: "/bin/bash"

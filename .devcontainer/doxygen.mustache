@@ -1,0 +1,26 @@
+{{! Doxygen Python Docstring Template }}
+! {{summaryPlaceholder}}
+
+{{extendedSummaryPlaceholder}}
+
+{{#parametersExist}}
+{{#args}}
+@param {{var}} ({{typePlaceholder}}) {{descriptionPlaceholder}}
+{{/args}}
+{{#kwargs}}
+@param {{var}} ({{typePlaceholder}}, optional) {{descriptionPlaceholder}}. Defaults to {{&default}}.
+{{/kwargs}}
+{{/parametersExist}}
+
+{{#exceptionsExist}}
+Raises:
+{{#exceptions}}
+    {{type}}: {{descriptionPlaceholder}}
+{{/exceptions}}
+{{/exceptionsExist}}
+
+{{#returnsExist}}
+{{#returns}}
+@return {{typePlaceholder}} {{descriptionPlaceholder}}
+{{/returns}}
+{{/returnsExist}}

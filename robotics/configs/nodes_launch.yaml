@@ -1,0 +1,36 @@
+NODE_DATA_CAPTURE:
+  launch: 0
+  node_executable: data_capture
+  package: data_capture
+  respawn: true
+  respawn_delay: 5.0
+NODE_INTERFACES:
+  launch: 0
+  node_executable: interfaces_node
+  package: interfaces
+  respawn: true
+  respawn_delay: 5.0
+NODE_LIFECYCLE_MANAGER:
+  launch: 0
+  node_executable: lifecycle_manager
+  package: lifecycle_manager
+  respawn: true
+  respawn_delay: 5.0
+NODE_MOTION_SPEED_CONTROL:
+  launch: 0
+  node_executable: speed_controller
+  package: motion_control
+  respawn: true
+  respawn_delay: 5.0
+NODE_RPM_CONVERTER:
+  launch: 0
+  node_executable: rpm_converter_node
+  package: rpm_converter
+  respawn: true
+  respawn_delay: 5.0
+NODE_WHEEL_ODOMETRY:
+  launch: 0
+  node_executable: wheel_odometry
+  package: wheel_odometry
+  respawn: true
+  respawn_delay: 5.0
