@@ -1,9 +1,3 @@
-NODE_DATA_CAPTURE:
-  launch: 0
-  node_executable: data_capture
-  package: data_capture
-  respawn: true
-  respawn_delay: 5.0
 NODE_INTERFACES:
   launch: 0
   node_executable: interfaces_node
@@ -20,6 +14,12 @@ NODE_MOTION_SPEED_CONTROL:
   launch: 0
   node_executable: speed_controller
   package: motion_control
+  respawn: true
+  respawn_delay: 5.0
+NODE_PLOTTER:
+  launch: 0
+  node_executable: plotter_node
+  package: plotter
   respawn: true
   respawn_delay: 5.0
 NODE_RPM_CONVERTER:

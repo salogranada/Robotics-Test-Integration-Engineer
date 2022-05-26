@@ -153,7 +153,9 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
     - Use the constant variables: `m_kp_str`, `m_ki_str`, and `m_kd_str` to calculate the raw output.
     - Calculate the output using a FeedForward controller
 
+    <p align="center">
     <img height="300" src="https://user-images.githubusercontent.com/39452483/170380717-55b76256-47c9-4e5c-aebf-cb6c456a252d.png">
+    </p>
 
 
 3.  **Calculate the error between reference and current velocities and fill a TwistStamped message** - package: [`motion_control`](../robotics/ros2/src/motion_control) file to modify: `motion_control/src/speed_controller.cpp` -> . Requirements:
@@ -162,6 +164,47 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
     - Calculate the difference between the reference linear and angular velocities and the provided by the Odometry.
     - Publish the message using the Publisher: `m_ctrl_error_pub`
 ## *Python*
+
+### Amazing Plotter
+
+Plotter node is a graph tool to visualize data in real time.
+
+First of all, you need to modify `robotics/configs/nodes_launch.yaml` files to build the `plotter_node` node. 
+
+  1. Identify the `NODE_PLOTTER` object on the `robotics/configs/nodes_launch.yaml` file:
+
+  ```.yaml
+    NODE_PLOTTER:
+        launch: 0
+        node_executable: plotter_node
+        package: plotter
+        respawn: true
+        respawn_delay: 5.0
+  ```
+
+  2. Change launch parameter. In order to indicated that you'll build and launch this file: 
+  
+  ```.yaml
+    NODE_PLOTTER:
+        launch: 1
+        node_executable: plotter_node
+        package: plotter
+        respawn: true
+        respawn_delay: 5.0
+  ```
+
+1.  **Create a Thread for spin the Node** - package: [`plotter`](../robotics/ros2/src/plotter) file to modify: `plotter/plotter_node.py` -> create a Thread that point to the `spin_node` function. Located in the `main` function.
+
+2. **Initialize the second subplot** - package: [`plotter`](../robotics/ros2/src/plotter) file to modify: `plotter/plotter_node.py` -> initialize a second subplot to show the `angular signal` and `angular error`. Located in the `__init__` function.
+
+3. **Create a third subplot to show the RPMs for each motor** - package: [`plotter`](../robotics/ros2/src/plotter) file to modify: `plotter/plotter_node.py` -> Create a third plot to show the RPMs for each motor. Located along the code.
+  - Legends for each motor
+  - A different color for each motor
+
+Reference Image
+  <p align="center">
+  <img height="400" src="https://user-images.githubusercontent.com/39452483/170585356-1d7a64e2-7920-465f-985d-2b31f383f2d4.png">
+  </p>
 
 ### Data Capture
 
@@ -222,6 +265,10 @@ Respond below in the same solution branch every questions. In case your answer i
 
 13. [C++] What is the [libsoft_speed.a](../robotics/ros2/src/motion_control/lib/) file and what is it for?
 
+14. [Python] Why should we use a thread to spin the node?
+
+15. [Python] Why is the limit on the Y-RPM graph 170?
+
 Next questions is after you finish the project, it doesn't give points but we really appreciate you feedback:
 * What do you think about this project? is it hard or enough? is it to complicated, is it well structure, explanations and instructions are clear?
 
@@ -240,6 +287,12 @@ For extra homework you should create a new branch from the developed one when yo
 7. **[+20%/5.0]:** Create a Node to fill a `LocationMsg.msg` [message](../robotics/ros2/src/usr_msgs/msg/location/LocationMsg.msg) and publish to a topic `/custom_gps` of the same type using the incoming GPS signals from two topics `/wifi_geo/fix -> from the router gps` and `/fix -> from the main gps` and `/imu/data -> from the IMU`. The `/wifi_geo/fix` has priority over the another one, but this signal is only published sometimes and after 20 seconds without receiving a new message from the wifi side the `/fix` signal take again the place. Note: the `/fix` signal is constantly publishing data.
 8. **[+5%/5.0]**: Add the `DELETE_BUILD` argument to the `startRobotics.sh` file (check line 61). Options : `--delete-build / -d`. Example: `startRobotics.sh -d 1` will delete the previous generated install, build, and log folders. Use 0 as default value.
 9. **[+5%/5.0]**: use `Valgrind` to analyses the `speed_controller` executable. [How to use it](./valgrind_usage.md). Why use `Valgrind`?
+10. **[+15%/5.0]**: The plotter node graph just until 10000 in the X axis, look for a way to dynamically change this value whilst the data is coming. Also, the lower limit (0) should change and keep a distance of 500 for the upper limit.
+11. **[Max. +10%/5.0]**: Beauty the plotter. The best will get 10%, second one 5%. Reference Image:
+
+  <p align="center">
+  <img height="400" src="https://user-images.githubusercontent.com/39452483/170590011-0220a4be-60fb-4754-bfb1-0b76c1e4b33a.png">
+  </p>
 
 Total possible Extra points: X% -> 5.0. Maximum total grade: X/5.0. Complete the point it doesn't mean you have 5.0, you have at least 3.0 but for the rest of the grade will evaluate the performance and the beauty of your solution. To complete these points, probably you will have to modify messages, services, or even create new ones, also topics subscribers and publishers, maybe services, who knows :smile:
 

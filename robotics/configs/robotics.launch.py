@@ -37,6 +37,7 @@ from launch_ros.actions import Node
 
 # ============================================================================
 
+
 class bcolors:
     LOG = {
         "WARN": ["\033[33m", "WARN"],
@@ -115,12 +116,6 @@ def generate_launch_description():
     respawn_delay = float(os.getenv(key="RESPAWN_DELAY", default=5))
     nodes = {
         # ---------------------------------------------------------------------
-        # Data Capture
-        "NODE_DATA_CAPTURE": {
-            "node_executable": "data_capture",
-            "package": "data_capture",
-        },
-        # ---------------------------------------------------------------------
         # Control nodes
         "NODE_MOTION_SPEED_CONTROL": {
             "node_executable": "speed_controller",
@@ -131,12 +126,6 @@ def generate_launch_description():
         "NODE_WHEEL_ODOMETRY": {
             "node_executable": "wheel_odometry",
             "package": "wheel_odometry",
-        },
-        # ---------------------------------------------------------------------
-        # Location package
-        "NODE_LOCATION": {
-            "node_executable": "location",
-            "package": "location",
         },
         # ---------------------------------------------------------------------
         # Interfaces
@@ -152,11 +141,18 @@ def generate_launch_description():
             "package": "lifecycle_manager",
         },
         # ---------------------------------------------------------------------
-        # Lifecycle Manager
+        # RPM converter
         "NODE_RPM_CONVERTER": {
             "node_executable": "rpm_converter_node",
             "node_name": "rpm_converter_node",
             "package": "rpm_converter",
+        },
+        # ---------------------------------------------------------------------
+        # Plotter
+        "NODE_PLOTTER": {
+            "node_executable": "plotter_node",
+            "node_name": "plotter_node",
+            "package": "plotter",
         },
         # ---------------------------------------------------------------------
     }
