@@ -221,6 +221,8 @@ Respond below in the same solution branch every questions. In case your answer i
 
 12. [Docker] Can we change the basic image (`FROM ubuntu:20.04`) from the docker file to another?
 
+13. [Python] 
+
 Next questions is after you finish the project, it doesn't give points but we really appreciate you feedback:
 * What do you think about this project? is it hard or enough? is it to complicated, is it well structure, explanations and instructions are clear?
 

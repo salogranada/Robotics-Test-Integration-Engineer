@@ -27,7 +27,7 @@ A brief description of the Robot's kinematics is provided in order to show how t
 
 Considering the orthonormal global frame *I = [O; X<sub>O</sub>, Y<sub>O</sub>, Z<sub>O</sub>]* centered at point O and an orthonormal local frame fixed at the robot’s Center of Mass (COM or call it the Robot frame) *J = [COM; X<sub>COM</sub>, Y<sub>COM</sub>, Z<sub>COM</sub>]*.
 
-Describing and denoting the position of the Robots COM relative to the origin of the global frame O as *R<sub>COM</sub>(t) = [X(t), Y (t), Z(t)] ∈ R<sup>3</sup>* , and the velocity of the Robot COM concerning the global frame O as *V<sub>COM</sub>(t) = [ Ẋ(t), Ẏ (t), Ż(t)]' ∈ R<sup>3</sup>.*
+Describing and denoting the position of the Robots COM relative to the origin of the global frame O as *R<sub>COM</sub>(t) = [X(t), Y (t), Z(t)] ∈ R<sup>3</sup>*, and the velocity of the Robot COM concerning the global frame O as *V<sub>COM</sub>(t) = [ Ẋ(t), Ẏ (t), Ż(t)]' ∈ R<sup>3</sup>.*
 
 The rotation of the local frame fixed to the mobile robot J concerning the global frame can be represented by the roll, pitch and yaw angles; nevertheless, for the Kiwibot the plane of motion is considered only, which means, the Z-Coordinate of COM is constant, with this assumption the Roll and Pitch angles will be zero.
 
