@@ -70,6 +70,46 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
 
 4. **Create a condition when a file isn't found** - package: [`interfaces`](../robotics/ros2/src/interfaces) file to modify: `interfaces/src/modules/speaker.cpp` -> When a sound track isn't found, play the default sound called `track2` located in the same folder as the another ones. You could test this point using `ros2 topic pub -1 /device/speaker/command std_msgs/Int8 "data: 2"`.
 
+### Wheel Odometry
+
+Wheel Odometry stands for the calculation fo the vehicle motion based on the information provided by wheel encoders which represents the wheel velocities (Directly related with the Robot motion).
+
+For simplicity of our system and controllers, our current chassis is represented as a differential mobile robot. This representation is widely used in robotics as it keeps thing simple. 
+
+Our wheel Odometry calculation relies in the data provided by the motors (RPM for extract the velocity and error for handling undesired data); however, we also use the IMU angular velocity to calculate a slip factor and hence improve the overall Odometry. Take care, this node was implemented using `CascadeLifecycleNode` instead of pure `Node`.
+
+First of all, you need to modify `robotics/configs/nodes_launch.yaml` files to build the `wheel_odometry` node. 
+
+Don't worry almost every C++ will fail when you try to compile, but that is part of the below exercises. Remember, if you won't use a node deactivate setting 0 in the launch parameter.
+
+  1. Identify the `NODE_MOTION_SPEED_CONTROL` object on the `robotics/configs/nodes_launch.yaml` file:
+
+  ```.yaml
+    NODE_WHEEL_ODOMETRY:
+        launch: 0
+        node_executable: wheel_odometry
+        package: wheel_odometry
+        respawn: true
+        respawn_delay: 5.0
+  ```
+
+  2. Change launch parameter. In order to indicated that you'll build and launch this file: 
+  
+  ```.yaml
+    NODE_WHEEL_ODOMETRY:
+        launch: 1
+        node_executable: wheel_odometry
+        package: wheel_odometry
+        respawn: true
+        respawn_delay: 5.0
+  ```
+
+1.  **Calculate the linear velocity for each wheel** - package: [`wheel_odometry`](../robotics/ros2/src/wheel_odometry) file to modify: `wheel_odometry/src/wheel_odometry.cpp` -> Calculate the linear velocity for each wheel based on the explication inside the [`README.md`](../robotics/ros2/src/wheel_odometry/README.md). The RPMs signs were previously corrected, so use the rpm values as they are given. The RPMs are provided by the subscriber callback `WheelOdometry::MotorsRPMCb` and the calculation should be done inside the `WheelOdometry::CalculateOdometry` function.
+
+2. **Calculate final X and Y values** - package: [`wheel_odometry`](../robotics/ros2/src/wheel_odometry) file to modify: `wheel_odometry/src/wheel_odometry.cpp` -> Calculate the `X` and `Y` final positions based on the explication inside the [`README.md`](../robotics/ros2/src/wheel_odometry/README.md). The calculation should be done inside the `WheelOdometry::CalculateOdometry` function and in the same way using the `X_dot` and `Y_dot` variables, calculate the global X and Y values using the `X_dot_global` and `Y_dot_global`.
+
+3. **Calculate total distance** - package: [`wheel_odometry`](../robotics/ros2/src/wheel_odometry) file to modify: `wheel_odometry/src/wheel_odometry.cpp` -> Calculate the total distance based on the `X` and `Y` positions [`Reference`](https://answers.ros.org/question/337813/distance-traveled-by-robot-using-odometry/). The calculation should be done inside the `WheelOdometry::CalculateOdometry` function.
+
 ### PID Controller and Speed Controller
 
 Speed controller is in charge of driving the robot at the desired linear and angular velocity based on the desired linear and angular velocities. It is done through a PID controller which takes as a reference the velocity commands and compares it with the current velocity measured with wheel Odometry. The exit of this node must be the desired linear and angular velocity commands. Take care, this node was implemented using `CascadeLifecycleNode` instead of pure `Node`.
@@ -121,47 +161,6 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
     - Only fill the header `stamp` field in the `TwistStamped` message
     - Calculate the difference between the reference linear and angular velocities and the provided by the Odometry.
     - Publish the message using the Publisher: `m_ctrl_error_pub`
-
-### Wheel Odometry
-
-Wheel Odometry stands for the calculation fo the vehicle motion based on the information provided by wheel encoders which represents the wheel velocities (Directly related with the Robot motion).
-
-For simplicity of our system and controllers, our current chassis is represented as a differential mobile robot. This representation is widely used in robotics as it keeps thing simple. 
-
-Our wheel Odometry calculation relies in the data provided by the motors (RPM for extract the velocity and error for handling undesired data); however, we also use the IMU angular velocity to calculate a slip factor and hence improve the overall Odometry. Take care, this node was implemented using `CascadeLifecycleNode` instead of pure `Node`.
-
-First of all, you need to modify `robotics/configs/nodes_launch.yaml` files to build the `wheel_odometry` node. 
-
-Don't worry almost every C++ will fail when you try to compile, but that is part of the below exercises. Remember, if you won't use a node deactivate setting 0 in the launch parameter.
-
-  1. Identify the `NODE_MOTION_SPEED_CONTROL` object on the `robotics/configs/nodes_launch.yaml` file:
-
-  ```.yaml
-    NODE_WHEEL_ODOMETRY:
-        launch: 0
-        node_executable: wheel_odometry
-        package: wheel_odometry
-        respawn: true
-        respawn_delay: 5.0
-  ```
-
-  2. Change launch parameter. In order to indicated that you'll build and launch this file: 
-  
-  ```.yaml
-    NODE_WHEEL_ODOMETRY:
-        launch: 1
-        node_executable: wheel_odometry
-        package: wheel_odometry
-        respawn: true
-        respawn_delay: 5.0
-  ```
-
-1.  **Calculate the linear velocity for each wheel** - package: [`wheel_odometry`](../robotics/ros2/src/wheel_odometry) file to modify: `wheel_odometry/src/wheel_odometry.cpp` -> Calculate the linear velocity for each wheel based on the explication inside the [`README.md`](../robotics/ros2/src/wheel_odometry/README.md). The RPMs signs were previously corrected, so use the rpm values as they are given. The RPMs are provided by the subscriber callback `WheelOdometry::MotorsRPMCb` and the calculation should be done inside the `WheelOdometry::CalculateOdometry` function.
-
-2. **Calculate final X and Y values** - package: [`wheel_odometry`](../robotics/ros2/src/wheel_odometry) file to modify: `wheel_odometry/src/wheel_odometry.cpp` -> Calculate the `X` and `Y` final positions based on the explication inside the [`README.md`](../robotics/ros2/src/wheel_odometry/README.md). The calculation should be done inside the `WheelOdometry::CalculateOdometry` function and in the same way using the `X_dot` and `Y_dot` variables, calculate the global X and Y values using the `X_dot_global` and `Y_dot_global`.
-
-3. **Calculate total distance** - package: [`wheel_odometry`](../robotics/ros2/src/wheel_odometry) file to modify: `wheel_odometry/src/wheel_odometry.cpp` -> Calculate the total distance based on the `X` and `Y` positions [`Reference`](https://answers.ros.org/question/337813/distance-traveled-by-robot-using-odometry/). The calculation should be done inside the `WheelOdometry::CalculateOdometry` function.
-
 ## *Python*
 
 ### Data Capture
@@ -221,7 +220,7 @@ Respond below in the same solution branch every questions. In case your answer i
 
 12. [Docker] Can we change the basic image (`FROM ubuntu:20.04`) from the docker file to another?
 
-13. [Python] 
+13. [C++] What is the [libsoft_speed.a](../robotics/ros2/src/motion_control/lib/) file and what is it for?
 
 Next questions is after you finish the project, it doesn't give points but we really appreciate you feedback:
 * What do you think about this project? is it hard or enough? is it to complicated, is it well structure, explanations and instructions are clear?

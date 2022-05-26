@@ -64,6 +64,7 @@ RUN apt-get update && \
     python3-argcomplete \
     python3-distutils \
     python3-pip \
+    python3-tk \
     # ------------------------------
     # Audio tools
     alsa-base \
