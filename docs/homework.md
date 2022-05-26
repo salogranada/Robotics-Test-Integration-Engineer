@@ -294,7 +294,7 @@ For extra homework you should create a new branch from the developed one when yo
   <img height="400" src="https://user-images.githubusercontent.com/39452483/170590011-0220a4be-60fb-4754-bfb1-0b76c1e4b33a.png">
   </p>
 
-Total possible Extra points: X% -> 5.0. Maximum total grade: X/5.0. Complete the point it doesn't mean you have 5.0, you have at least 3.0 but for the rest of the grade will evaluate the performance and the beauty of your solution. To complete these points, probably you will have to modify messages, services, or even create new ones, also topics subscribers and publishers, maybe services, who knows :smile:
+Total possible Extra points: 105% -> 5.0. Maximum total grade: 10.25/5.0. Complete the point it doesn't mean you have 5.0, you have at least 3.0 but for the rest of the grade will evaluate the performance and the beauty of your solution. To complete these points, probably you will have to modify messages, services, or even create new ones, also topics subscribers and publishers, maybe services, who knows :smile:
 
 ---
 
