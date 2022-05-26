@@ -1,7 +1,7 @@
 <!-- ---------------------------------------------------------------------- -->
 
 ---
-# THE SUPER HYPER POKE DIGI MEGA MUCHI-FANTASTIC FINAL PROJECT
+# FINAL PROJECT
 NAME: **WRITE YOUR NAME HERE**
 
 ---
@@ -195,7 +195,7 @@ Don't worry almost every C++ will fail when you try to compile, but that is part
 <!-- ---------------------------------------------------------------------- -->
 ## **QUESTIONARY**
 
-Respond below every questions:
+Respond below in the same solution branch every questions. In case your answer isn't in this file, it'll not be valid:
 
 5. [C++] What is the mean of the number "15" used in the pthread_kill inside the destructor method?
 
