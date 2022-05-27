@@ -28,7 +28,15 @@ Running the stack from the root, remember the command is:
 koda@airobotics:/workspace$ bash robotics/configs/startRobotics.sh
 ```
 
+
+
 ## *C++* 
+
+**The input topics will be supplied by a `rosbag`. Such as:**
+
+- `/motion_control/speed_controller/reference_cmd`
+- `/imu/data`
+- `/uavcan/chassis/motors_rpm_feedback`
 
 ### Interfaces
 
@@ -246,7 +254,7 @@ Respond below in the same solution branch every question. In case your answer is
 
 5. [C++] Why should we use a "member variable" (persistent over the class) to storage the integral error? `m_vx_int_error`
 
-6. [Control] What is the function of the FeedForward?
+6. [Control] What is the function of the FeedForward controller?
 
 7. [ROS2] What is the purpose of `CascadeLifecycleNode` type nodes?
 
