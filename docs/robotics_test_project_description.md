@@ -29,7 +29,7 @@ You will be provided with a `rosbag` containing all the topics information you n
 4. We recommend reading in the next order the manuals and documentation: running_dev_container.md, integration_engineer_project.md, homework.md.
 5. Please, and please be sure you understand what you have to do, and that the rules are clear enough.
 6. No partial solutions will be accepted, and neither any kind of excuses, sorry ... The project works or not, that's it.
-7. The last commit and push of your solution can be done after Monday 6nd of June at 11:59:00 AM.
+7. The last commit and push of your solution can be done after Thursday 7nd of June at 11:59:00 AM.
 8. It's completely forbidden to contact Kiwibot's employees through work or personal emails, mobile numbers, or other contact mediums,  you can not also contact other participants for the role, if you do so your application will be canceled. If you have questions follow the instructions specified in the documents and manuals.
 9. The maximum grade for the project is 10.25 over 5.0 if you complete the extra homework (the real challenge). I mean if you complete the basic points you will get 5.0 if everything it's ok but if you complete the extra homework your grade could increase to 10.25.
 10. If you found an issue (not documentation, unless it affects the proper development of the project) you could get an extra 5.0%/5.
