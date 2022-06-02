@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
     rclcpp::Rate r(period);
     while (rclcpp::ok())
     {
-        speaker_node->publishData();
         executor.spin_some();
         r.sleep();
     }
