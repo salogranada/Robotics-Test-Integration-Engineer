@@ -131,8 +131,6 @@ void WheelOdometry::MotorsRPMCb(const usr_msgs::msg::MotorsRPM::SharedPtr msg)
     m_motors_rpm.rpms_fl = msg->rpms_fl;
 }
 
-// void WheelOdometry::MotorsCurrentCb(const usr_msgs::msg::MotorsCurrent::SharedPtr msg) { m_motors_current = *msg; }
-
 void WheelOdometry::ImuCb(const sensor_msgs::msg::Imu::SharedPtr msg)
 {
     tf2::Quaternion q(msg->orientation.x, msg->orientation.y, msg->orientation.z, msg->orientation.w);

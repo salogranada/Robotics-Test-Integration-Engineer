@@ -44,7 +44,6 @@
 #include "std_srvs/srv/set_bool.hpp"
 
 // Custom Messages
-#include "usr_msgs/msg/motors_current.hpp"
 #include "usr_msgs/msg/motors_rpm.hpp"
 
 #define TRANSITION_CONFIGURE 1
@@ -58,12 +57,12 @@ using std::placeholders::_3;
 
 class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
 {
-   public:
+public:
     /*!
         Constructor
         @param options: rclcpp::NodeOptions.
     */
-    explicit WheelOdometry(rclcpp::NodeOptions& options) : CascadeLifecycleNode("wheel_odometry", options) {}
+    explicit WheelOdometry(rclcpp::NodeOptions &options) : CascadeLifecycleNode("wheel_odometry", options) {}
 
     /*!
         Destructor
@@ -71,15 +70,15 @@ class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
     ~WheelOdometry(){};
 
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_configure(
-        const rclcpp_lifecycle::State&);
+        const rclcpp_lifecycle::State &);
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_activate(
-        const rclcpp_lifecycle::State&);
+        const rclcpp_lifecycle::State &);
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_deactivate(
-        const rclcpp_lifecycle::State&);
+        const rclcpp_lifecycle::State &);
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_cleanup(
-        const rclcpp_lifecycle::State&);
+        const rclcpp_lifecycle::State &);
     rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_shutdown(
-        const rclcpp_lifecycle::State&);
+        const rclcpp_lifecycle::State &);
 
     /*!
         Function in charge of calculating robot movement base on wheel odometry
@@ -90,7 +89,7 @@ class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
 
     uint8_t m_state = TRANSITION_ACTIVATE;
 
-   private:
+private:
     // Publishers
     rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr
         m_wheel_odom_pub; /*!< Publish at topic /wheel_odometry/local_odometry */
@@ -100,7 +99,6 @@ class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
         m_absolute_distance_pub; /*!< Publish at topic /wheel_odometry/total_distance */
 
     // Subscribers
-    // rclcpp::Subscription<usr_msgs::msg::MotorsCurrent>::SharedPtr m_motors_current_sub; /*!< @sa MotorsCurrentCb() */
     rclcpp::Subscription<usr_msgs::msg::MotorsRPM>::SharedPtr m_motors_rpm_sub; /*!< @sa MotorsRPMCb() */
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr m_imu_move_sub;        /*!< @sa MovementCb() */
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr m_imu_sub;           /*!< @sa ImuCb() */
@@ -115,17 +113,10 @@ class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
 
     /*!
         Motors RPM subscription callback for the topic /uavcan/chassis/motors_rpm_feedback
-        @param msg: Custom MotorsCurrent message.
+        @param msg: Custom MotorsRPM message.
         @return void.
     */
     void MotorsRPMCb(const usr_msgs::msg::MotorsRPM::SharedPtr msg);
-
-    /*!
-        Motors current subscription callback for the topic /uavcan/chassis/motors_current
-        @param msg: Custom MotorsCurrent message.
-        @return void.
-    */
-    void MotorsCurrentCb(const usr_msgs::msg::MotorsCurrent::SharedPtr msg);
 
     /*!
         IMU information subscription callback for the topic /imu/data
@@ -157,7 +148,6 @@ class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
 
     // Member attributes
     usr_msgs::msg::MotorsRPM m_motors_rpm;
-    // usr_msgs::msg::MotorsCurrent m_motors_current;
     nav_msgs::msg::Odometry m_local_wheel_odom_msg;
     nav_msgs::msg::Odometry m_global_wheel_odom_msg;
 
@@ -171,9 +161,9 @@ class WheelOdometry : public rclcpp_cascade_lifecycle::CascadeLifecycleNode
     double m_imu_roll_offset = 0;
     double m_imu_pitch_offset = 0;
     double m_imu_yaw_offset = 0;
-    double m_imu_roll_startup_offset = 0;   // Offset only for the first IMU reading
-    double m_imu_pitch_startup_offset = 0;  // Offset only for the first IMU reading
-    double m_imu_yaw_startup_offset = 0;    // Offset only for the first IMU reading
+    double m_imu_roll_startup_offset = 0;  // Offset only for the first IMU reading
+    double m_imu_pitch_startup_offset = 0; // Offset only for the first IMU reading
+    double m_imu_yaw_startup_offset = 0;   // Offset only for the first IMU reading
     double m_imu_roll = 0.0f;
     double m_imu_pitch = 0.0f;
     double m_imu_yaw = 0.0f;
