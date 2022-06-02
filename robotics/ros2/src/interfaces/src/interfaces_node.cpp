@@ -9,7 +9,7 @@
 
 #include "modules/speaker.hpp"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
     rclcpp::NodeOptions options;
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 
     auto speaker_node = std::make_shared<Speaker>(options);
 
-    uint8_t time = speaker_node->m_status_msg->status ? 100 : 5000;
+    uint8_t time = 100;
     executor.add_node(speaker_node);
 
     auto period = std::chrono::milliseconds(time);
