@@ -30,7 +30,8 @@ Speaker::Speaker(rclcpp::NodeOptions &options) : Node("speaker", "interfaces", o
      * Find Documentation here:
      * https://docs.ros.org/en/foxy/Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html#write-the-subscriber-node
      ********************************************/
-
+    m_speaker_sub = this->create_subscription<std_msgs::msg::Int8>(
+        "AmazingSpeakerSubscriber",10, std::bind(&Speaker::speakerCb), this, std::placeholders::_1);
     /********************************************
      * END CODE
      ********************************************/
@@ -59,7 +60,7 @@ Speaker::Speaker(rclcpp::NodeOptions &options) : Node("speaker", "interfaces", o
 
     /* Write parameters */
     if (pcm = (snd_pcm_hw_params(pcm_handle, params) < 0))
-        RCLCPP_ERROR(this->get_logger(), "ERROR: Can't set harware parameters. %s\n", snd_strerror(pcm));
+        RCLCPP_ERROR(this->get_logger(), "ERROR: Can't set hardware parameters. %s\n", snd_strerror(pcm));
 
     /* Resume information */
     RCLCPP_INFO(this->get_logger(), "PCM name: '%s'\n", snd_pcm_name(pcm_handle));
@@ -103,7 +104,11 @@ void Speaker::speakerCb(const std_msgs::msg::Int8::SharedPtr msg)
         /********************************************
          * PLAY A DEFAULT SOUND IF NOT FOUND THE TRACK FILE
          ********************************************/
-
+        else
+        {
+            readfd = open((m_path + "track2.wav").c_str(), O_RDONLY);
+            status = pthread_create(&pthread_id, NULL, (THREADFUNCPTR)&Speaker::PlaySound, this);
+        }
         /********************************************
          * END CODE
          ********************************************/
@@ -133,6 +138,10 @@ void *Speaker::PlaySound()
      ********************************************/
     std_msgs::msg::Bool::UniquePtr msg(new std_msgs::msg::Bool());
 
+    msg->data = false;
+    
+    m_done_pub->publish(std::move(msg));
+
     /********************************************
      * END CODE
      ********************************************/
@@ -159,6 +168,10 @@ void *Speaker::PlaySound()
      ********************************************/
     // This is just for clean the variable name and re-initialize it.
     msg.reset(new std_msgs::msg::Bool());
+
+    msg->data = true;
+    
+    m_done_pub->publish(std::move(msg));
 
     /********************************************
      * END CODE
