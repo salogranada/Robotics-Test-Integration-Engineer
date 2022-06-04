@@ -31,7 +31,7 @@ Speaker::Speaker(rclcpp::NodeOptions &options) : Node("speaker", "interfaces", o
      * https://docs.ros.org/en/foxy/Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html#write-the-subscriber-node
      ********************************************/
     m_speaker_sub = this->create_subscription<std_msgs::msg::Int8>(
-        "AmazingSpeakerSubscriber",10, std::bind(&Speaker::speakerCb), this, std::placeholders::_1);
+        "m_speaker_sub",10, std::bind(&Speaker::speakerCb, this, std::placeholders::_1));
     /********************************************
      * END CODE
      ********************************************/
@@ -104,9 +104,10 @@ void Speaker::speakerCb(const std_msgs::msg::Int8::SharedPtr msg)
         /********************************************
          * PLAY A DEFAULT SOUND IF NOT FOUND THE TRACK FILE
          ********************************************/
+        /* Assuming the if can play the sound, we only need to add else statement. Line ~83 makes example of playing 1 sound*/
         else
         {
-            readfd = open((m_path + "track2.wav").c_str(), O_RDONLY);
+            readfd = open((m_path + "2.wav").c_str(), O_RDONLY);
             status = pthread_create(&pthread_id, NULL, (THREADFUNCPTR)&Speaker::PlaySound, this);
         }
         /********************************************
