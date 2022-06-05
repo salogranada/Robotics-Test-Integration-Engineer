@@ -178,11 +178,11 @@ void WheelOdometry::CalculateOdometry()
 
     /* Wheels linear velocities */
     /********************************************
-     * Calculate your Amazing Linear Velocity for each Wheel HERE
-    float FR_vel = ?;
-    float RR_vel = ?;
-    float RL_vel = ?;
-    float FL_vel = ?;
+     * Calculate your Amazing Linear Velocity for each Wheel HERE*/
+    float FR_vel = (2 * PI * m_wheel_rad * m_motors_rpm.rpms_fr) / 60.0;
+    float RR_vel = (2 * PI * m_wheel_rad * m_motors_rpm.rpms_rr) / 60.0;
+    float RL_vel = (2 * PI * m_wheel_rad * m_motors_rpm.rpms_rl) / 60.0;
+    float FL_vel = (2 * PI * m_wheel_rad * m_motors_rpm.rpms_fl) / 60.0;
     /********************************************
      * END CODE
      *  ********************************************/
@@ -215,16 +215,16 @@ void WheelOdometry::CalculateOdometry()
 
     /* Wheels linear velocities */
     /********************************************
-     * Calculate the X and Y positions
-    float delta_X = ?;
-    float delta_Y = ?;
+     * Calculate the X and Y positions*/
+    float delta_X = X_dot * dt;
+    float delta_Y = Y_dot * dt;
 
     // Don't forget the offset :smile:
-    float X = ?;
-    float Y = ?;
+    float X = delta_X + m_imu_yaw_offset;
+    float Y = delta_Y + m_imu_yaw_offset;
 
-    m_local_wheel_odom_msg.pose.pose.position.x = ?;
-    m_local_wheel_odom_msg.pose.pose.position.y = ?;
+    m_local_wheel_odom_msg.pose.pose.position.x = X;
+    m_local_wheel_odom_msg.pose.pose.position.y = Y;
     /********************************************
      * END CODE
      *  ********************************************/
@@ -268,16 +268,16 @@ void WheelOdometry::CalculateOdometry()
     // Adding displacement in [m] to the global message
 
     /********************************************
-     * Calculate the X and Y positions
-    float delta_X_global = ?;
-    float delta_Y_global = ?;
+     * Calculate the X and Y positions*/
+    float delta_X_global = X_dot_global * dt;
+    float delta_Y_global = Y_dot_global * dt;
 
     // Don't forget the offset :smile:
-    float X_global = ?;
-    float Y_global = ?;
+    float X_global = delta_X_global + m_imu_yaw_startup_offset;
+    float Y_global = delta_Y_global + m_imu_yaw_startup_offset;
 
-    m_global_wheel_odom_msg.pose.pose.position.x = ?;
-    m_global_wheel_odom_msg.pose.pose.position.y = ?;
+    m_global_wheel_odom_msg.pose.pose.position.x = X_global;
+    m_global_wheel_odom_msg.pose.pose.position.y = Y_global;
     /********************************************
      * END CODE
      *  ********************************************/
@@ -301,15 +301,15 @@ void WheelOdometry::CalculateOdometry()
         // Calculate total distance
 
         /********************************************
-         * Your Amazing tachometer
-        float d_increment = ?;
+         * Your Amazing tachometer*/
+        float d_increment = sqrt((X_global - m_previous_x)*(X_global - m_previous_x) + (Y_global - m_previous_y)*(Y_global - m_previous_y));
 
         // Update previous data
-        m_previous_x = ?;
-        m_previous_y = ?;
+        m_previous_x = X_global;
+        m_previous_y = Y_global;
 
         // Accumulate distance
-        m_total_distance.data = ?;
+        m_total_distance.data = m_total_distance.data + d_increment;
         /********************************************
          * END CODE
          *  ********************************************/
