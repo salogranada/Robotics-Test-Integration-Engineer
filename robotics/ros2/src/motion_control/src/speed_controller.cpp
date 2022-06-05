@@ -113,7 +113,7 @@ void SpeedController::Controller()
 
     //Adds time stamp to message.
     output_error_msg->header.stamp = this->now();
-    //Adds linear and angular errors. Reference - odometry position.
+    //Adds linear and angular errors. Reference - odometry.
     output_error_msg->twist.linear.x = lin_vx - m_robot_twist.twist.linear.x;
     output_error_msg->twist.angular.z = ang_wz - m_robot_twist.twist.angular.z;
 
