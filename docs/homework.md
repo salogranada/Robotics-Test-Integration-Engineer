@@ -251,25 +251,49 @@ Respond below in the same solution branch every question. In case your answer is
 
 2. [C++] Why are we using `UniquePointer` instead of `SharedPointers` to publish a ROS2 message?
 
+Using `UniquePointer` allow us to handle allocation in memory in a more organized way. That way, our program won't have unnecessary copies of the published message in memory. The reference will be unique and can go through the system safely. This will result in better performance for programs as Kiwibot's.
+
+Reference: https://docs.ros.org/en/humble/Tutorials/Intra-Process-Communication.html 
+          https://herbsutter.com/2013/06/05/gotw-91-solution-smart-pointer-parameters/ 
+
 3. [Logic] Why are we using an m_multi_sound variable? Explain ...
 
+We need the m_multi_sound variable because, as AmbientSound is running through a Thread, it will confirm if something is already playing. m_multi_sound changes to 1 when the sound has stopped, therefore it will allow us (in the IF that it is used) to write into the pcm handle as nothing else is playing. 
+
 4. [C++] Why are we freeing the memory allocated by raw pointer "buff" variable and not freeing the memory allocated by the Shared and Unique Pointers? (HARD)
+
+Because the Shared and Unique Pointers are Smart Pointers were their lifetime is managed. They will actually be free/killed as soon as the program is out of the scope. Meanwhile the "buff" as it is a raw pointer we have to explicitly destroy the object.
 
 5. [C++] Why should we use a "member variable" (persistent over the class) to storage the integral error? `m_vx_int_error`
 
 6. [Control] What is the function of the FeedForward controller?
 
+A FeedFoward controller will allow us to handle Setpoint changes and disturbances before they enter into the system. 
+Setpoint changes are somehow predictable as we with some anteriority know the change is going to happen and disturbances are measurable. Instead of allowing error and afterwards controlling it with the Feedback Controller we can predict/measure the change and handle it with the FeedFoward controller beforehand and add it to the output of the Feedback control. That way we can decrease hard changes in the output of the system and run smoothly into our setpoint. 
+
+Reference: https://www.youtube.com/watch?v=FW_ay7K4jPE 
+
 7. [ROS2] What is the purpose of `CascadeLifecycleNode` type nodes?
 
 8. [Robotics] Why is a global and a local `Odometry` calculated?
 
+Global and local Odometry is needed because we manage two frames of reference, world(global) and robot(local). With the local we will be able to know how much the robot has moved with respect to its initial position (0,0) in its own reference, but we also need the global to know the robots position in the world.
+Therefore is needed to make Transforms to get to know one's frame position with respect to the other. Libraries such as tf2 really help with this process, that I can see is been used.
+
+
 9. [Robotics] If the robot has 4 differential wheels, what type of chassis is it?
 
-10. [Docker] Explain with your own words what is the instructions `apt-get autoremove && apt-get clean -y for?`
+10. [Docker] Explain with your own words what is the instructions `apt-get autoremove && apt-get clean -y` for?
 
-11. [Docker] If you modify a layer what happen with the previous and the next ones?
+Autoremove will allow us to remove files that were needed for installation but that we no longer need them, while clean clears out cache from retrieved packages. The -y option is just for auto-answering any prompted questions that may appear when we run the commands.
+
+Reference: http://manpages.ubuntu.com/manpages/kinetic/en/man8/apt-get.8.html 
+
+11. [Docker] If you modify a layer what happens with the previous and the next ones?
 
 12. [Docker] Can we change the basic image (`FROM ubuntu:20.04`) from the docker file to another?
+
+We could but, we would have to build again the docker image, and will result in creating a new container from that new image. Also, depending on the layers that follow, we will have to check if every instruction is still persistent with that change. 
 
 13. [C++] What is the [libsoft_speed.a](../robotics/ros2/src/motion_control/lib/) file and what is it for?
 
