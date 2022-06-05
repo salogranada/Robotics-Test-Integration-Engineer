@@ -104,7 +104,8 @@ void Speaker::speakerCb(const std_msgs::msg::Int8::SharedPtr msg)
         /********************************************
          * PLAY A DEFAULT SOUND IF NOT FOUND THE TRACK FILE
          ********************************************/
-        /* Assuming the if can play the sound, we only need to add else statement. Line ~83 makes example of playing 1 sound*/
+        /* Assuming the IF can play the sound, we only need to add else statement to handle missing files. 
+            Line ~83 makes example of playing one specific sound*/
         else
         {
             readfd = open((m_path + "2.wav").c_str(), O_RDONLY);
