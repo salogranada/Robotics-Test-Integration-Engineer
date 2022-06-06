@@ -43,7 +43,7 @@ class Plotter(Node):
         # Define Plotter Variables
         # =============================================================================
         self.fig, self.ax = plt.subplots(1, 3)
-        self.fig.suptitle("Kiwibot's Amazing Plotter", fontsize=18)
+        self.fig.suptitle("Amazing Plotter", fontsize=18)
         self.fig.set_size_inches(18.5, 10.5)
         # =============================================================================
         # Controller Lines
@@ -84,8 +84,8 @@ class Plotter(Node):
 
         # Motors RPM sub-plot
         (self.rpm_fr,) = self.ax[2].plot([], [], "r", label="FR")
-        (self.rpm_rr,) = self.ax[2].plot([], [], ":", label="RR")
-        (self.rpm_rl,) = self.ax[2].plot([], [], ":", label="RL")
+        (self.rpm_rr,) = self.ax[2].plot([], [], ":", label="RR", color="#0082F5")
+        (self.rpm_rl,) = self.ax[2].plot([], [], ":", label="RL", color="black")
         (self.rpm_fl,) = self.ax[2].plot([], [], label="FL", color="orange")
         self.controller_rpm = [self.rpm_fr, self.rpm_rr, self.rpm_rl, self.rpm_fl]
         self.ax[2].legend(title="Motors")
