@@ -44,7 +44,7 @@ class Plotter(Node):
         # =============================================================================
         self.fig, self.ax = plt.subplots(1, 3)
         self.fig.suptitle(
-            "Amazing Plotter",
+            "Kiwibot's Amazing Plotter",
             fontsize=18,
             fontstyle="oblique",
             fontweight="bold",
@@ -83,7 +83,7 @@ class Plotter(Node):
             [], [], "g-", linewidth=1, label="Control Angular Signal"
         )
         (self.error_angular_ln,) = self.ax[1].plot(
-            [], [], "-.c", linewidth=0.5, label="Angular Error"
+            [], [], "-.", linewidth=0.5, label="Angular Error", color="#0082F5"
         )
         self.controller_ang_lns = [self.control_ang_ln, self.error_angular_ln]
         self.ax[1].legend()
@@ -91,9 +91,9 @@ class Plotter(Node):
 
         # Motors RPM sub-plot
         (self.rpm_fr,) = self.ax[2].plot([], [], "r", label="FR")
-        (self.rpm_rr,) = self.ax[2].plot([], [], ":b", label="RR")
-        (self.rpm_rl,) = self.ax[2].plot([], [], "g", label="RL")
-        (self.rpm_fl,) = self.ax[2].plot([], [], ":c", label="FL")
+        (self.rpm_rr,) = self.ax[2].plot([], [], ":", label="RR", color="#0082F5")
+        (self.rpm_rl,) = self.ax[2].plot([], [], ":", label="RL", color="#07B79F")
+        (self.rpm_fl,) = self.ax[2].plot([], [], label="FL", color="orange")
         self.controller_rpm = [self.rpm_fr, self.rpm_rr, self.rpm_rl, self.rpm_fl]
         self.ax[2].legend(title="Motors")
         # Initializes list for storing complete rpm data.
@@ -184,6 +184,7 @@ class Plotter(Node):
         self.controller_rpm[2].set_data(self.x_rpm_data[2], self.y_rpm_data[2])
         self.controller_rpm[3].set_data(self.x_rpm_data[3], self.y_rpm_data[3])
 
+        # Enable dynamic x-axis plotting
         if self.x_linear_data[0] != []:
             self.ax[0].set_xlim(min(self.x_linear_data[0]), max(self.x_linear_data[0]))
         if self.x_ang_data[0] != []:
