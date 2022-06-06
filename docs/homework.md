@@ -249,6 +249,10 @@ Respond below in the same solution branch every question. In case your answer is
 
 1. [C++] What is the mean of the number "15" used in the `pthread_kill` inside the destructor method?
 
+In this case `pthread_kill` allow us to send "15" as a signal to the pthread_id and pthread_id_ambient threads. So, in here it refers to terminating each thread explicitly. 
+
+Reference: https://man7.org/linux/man-pages/man3/pthread_kill.3.html 
+
 2. [C++] Why are we using `UniquePointer` instead of `SharedPointers` to publish a ROS2 message?
 
 Using `UniquePointer` allow us to handle allocation in memory in a more organized way. That way, our program won't have unnecessary copies of the published message in memory. The reference will be unique and can go through the system safely. This will result in better performance for programs as Kiwibot's.
@@ -265,6 +269,8 @@ We need the m_multi_sound variable because, as AmbientSound is running through a
 Because the Shared and Unique Pointers are Smart Pointers were their lifetime is managed. They will actually be free/killed as soon as the program is out of the scope. Meanwhile the "buff" as it is a raw pointer we have to explicitly destroy the object.
 
 5. [C++] Why should we use a "member variable" (persistent over the class) to storage the integral error? `m_vx_int_error`
+
+Because we need it to exist not only for the function but also for the class. If not, in every cycle/iteration the variable would be reset not allowing us to accumulate the error.
 
 6. [Control] What is the function of the FeedForward controller?
 
@@ -287,6 +293,8 @@ Therefore is needed to make Transforms to get to know one's frame position with 
 
 9. [Robotics] If the robot has 4 differential wheels, what type of chassis is it?
 
+I don't fully understand the question. It would be a 4WD chassis. 
+
 10. [Docker] Explain with your own words what is the instructions `apt-get autoremove && apt-get clean -y` for?
 
 Autoremove will allow us to remove files that were needed for installation but that we no longer need them, while clean clears out cache from retrieved packages. The -y option is just for auto-answering any prompted questions that may appear when we run the commands.
@@ -305,6 +313,11 @@ We could but, we would have to build again the docker image, and will result in 
 
 13. [C++] What is the [libsoft_speed.a](../robotics/ros2/src/motion_control/lib/) file and what is it for?
 
+The [libsoft_speed.a] is an archive file which groups objects or static libraries. It can be understood as a kind of a Zip file. It is convenient to use them in big projects as it saves us disk space and just having to manage one library instead of a lot of files. 
+In our case seems to handle speed_controller and pid_controller.
+
+Reference: https://stackoverflow.com/questions/1852941/why-create-a-a-file-from-o-for-static-linking 
+
 14. [Python] Why should we use a thread to spin the node?
 
 It is convenient to use a thread to spin the node because that way we can handle better the subscription queue. In the case of the plotter, as we want to get real-time graphs, we don't want them to get interfered in the queues of other nodes. That's why spinning them in its own thread is a good idea.
@@ -312,6 +325,9 @@ It is convenient to use a thread to spin the node because that way we can handle
 Reference: http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning 
 
 15. [Python] Why is the limit on the Y-RPM graph 170?
+
+170 is approximately the max value the motors can get to according to the ros bag data. So for proper visualization we can fit the graph to that limit. 
+Also the reference of the motors used in the Kiwibot are 165RPM, therefore that limit will be enough for seeing the data. Any value above or below +-170 might be a miscalculation. 
 
 Next questions are after you finish the project, it doesn't give points, but we really appreciate you feedback:
 * What do you think about this project? Is it hard or enough? Is it to complicated, is it well structure, explanations and instructions are clear?
