@@ -43,15 +43,8 @@ class Plotter(Node):
         # Define Plotter Variables
         # =============================================================================
         self.fig, self.ax = plt.subplots(1, 3)
-        self.fig.suptitle(
-            "Kiwibot's Amazing Plotter",
-            fontsize=18,
-            fontstyle="oblique",
-            fontweight="bold",
-            color="#0082F5",
-        )
+        self.fig.suptitle("Amazing Plotter", fontsize=18)
         self.fig.set_size_inches(18.5, 10.5)
-        self.fig.set_facecolor("#121A36")
         # =============================================================================
         # Controller Lines
         # =============================================================================
@@ -93,7 +86,7 @@ class Plotter(Node):
         # Motors RPM sub-plot
         (self.rpm_fr,) = self.ax[2].plot([], [], "r", label="FR")
         (self.rpm_rr,) = self.ax[2].plot([], [], ":", label="RR", color="#0082F5")
-        (self.rpm_rl,) = self.ax[2].plot([], [], ":", label="RL", color="#07B79F")
+        (self.rpm_rl,) = self.ax[2].plot([], [], ":", label="RL", color="black")
         (self.rpm_fl,) = self.ax[2].plot([], [], label="FL", color="orange")
         self.controller_rpm = [self.rpm_fr, self.rpm_rr, self.rpm_rl, self.rpm_fl]
         self.ax[2].legend(title="Motors")
@@ -144,24 +137,17 @@ class Plotter(Node):
         """!
         Function to set the initial plot status.
         """
-        self.ax[0].set_xlim(0, 10)
+        self.ax[0].set_xlim(0, 10000)
         self.ax[0].set_ylim(-3, 3)
-        self.ax[0].set_title("Linear Signal / Linear Error", color="white")
+        self.ax[0].set_title("Linear Signal / Linear Error")
 
-        self.ax[1].set_xlim(0, 10)
+        self.ax[1].set_xlim(0, 10000)
         self.ax[1].set_ylim(-3, 3)
-        self.ax[1].set_title("Angular Signal / Angular Error", color="white")
+        self.ax[1].set_title("Angular Signal / Angular Error")
 
-        self.ax[2].set_xlim(0, 10)
-        self.ax[2].set_ylim(-200, 200)
-        self.ax[2].set_title("RPMs", color="white")
-
-        self.ax[0].tick_params(axis="x", colors="white")
-        self.ax[0].tick_params(axis="y", colors="white")
-        self.ax[1].tick_params(axis="x", colors="white")
-        self.ax[1].tick_params(axis="y", colors="white")
-        self.ax[2].tick_params(axis="x", colors="white")
-        self.ax[2].tick_params(axis="y", colors="white")
+        self.ax[2].set_xlim(0, 10000)
+        self.ax[2].set_ylim(-170, 170)
+        self.ax[2].set_title("RPMs")
 
         return [self.controller_lin_lns, self.controller_ang_lns, self.controller_rpm]
 
@@ -184,32 +170,6 @@ class Plotter(Node):
         self.controller_rpm[1].set_data(self.x_rpm_data[1], self.y_rpm_data[1])
         self.controller_rpm[2].set_data(self.x_rpm_data[2], self.y_rpm_data[2])
         self.controller_rpm[3].set_data(self.x_rpm_data[3], self.y_rpm_data[3])
-
-        # Enable dynamic x-axis plotting
-        # Setup for linear graph
-        if self.x_linear_data[0] != []:
-            if len(self.x_linear_data[0]) > 500:
-                self.ax[0].set_xlim(
-                    (max(self.x_linear_data[0]) - 500), max(self.x_linear_data[0])
-                )
-            else:
-                self.ax[0].set_xlim(0, max(self.x_linear_data[0]))
-        # Setup for angular graph
-        if self.x_ang_data[0] != []:
-            if len(self.x_ang_data[0]) > 500:
-                self.ax[1].set_xlim(
-                    (max(self.x_ang_data[0]) - 500), max(self.x_ang_data[0])
-                )
-            else:
-                self.ax[1].set_xlim(0, max(self.x_ang_data[0]))
-        # Setup for rpm graph
-        if self.x_rpm_data[0] != []:
-            if len(self.x_rpm_data[0]) > 500:
-                self.ax[2].set_xlim(
-                    (max(self.x_rpm_data[0]) - 500), max(self.x_rpm_data[0])
-                )
-            else:
-                self.ax[2].set_xlim(min(self.x_rpm_data[0]), max(self.x_rpm_data[0]))
 
         return [self.controller_lin_lns, self.controller_ang_lns, self.controller_rpm]
 
@@ -294,11 +254,7 @@ def main(args=None) -> None:
     # ---------------------------------------------------------------------
 
     ani = FuncAnimation(
-        plotter_node.fig,
-        plotter_node.update_plot,
-        init_func=plotter_node.plot_init,
-        frames=200,
-        interval=20,
+        plotter_node.fig, plotter_node.update_plot, init_func=plotter_node.plot_init
     )
 
     plt.show(block=True)
