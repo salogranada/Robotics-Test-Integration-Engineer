@@ -43,19 +43,29 @@ class Plotter(Node):
         # Define Plotter Variables
         # =============================================================================
         self.fig, self.ax = plt.subplots(1, 3)
-        self.fig.suptitle("Amazing Plotter", fontsize=16)
+        self.fig.suptitle(
+            "Amazing Plotter",
+            fontsize=18,
+            fontstyle="oblique",
+            fontweight="bold",
+            color="white",
+        )
         self.fig.set_size_inches(18.5, 10.5)
+        self.fig.set_facecolor("#121A36")
         # =============================================================================
         # Controller Lines
         # =============================================================================
 
         # Linear
         (self.control_lin_ln,) = self.ax[0].plot(
-            [], [], "r", label="Control Linear Signal"
+            [], [], "r-", linewidth=1, label="Control Linear Signal"
         )
-        (self.error_linear_ln,) = self.ax[0].plot([], [], "b", label="Linear Error")
+        (self.error_linear_ln,) = self.ax[0].plot(
+            [], [], "-.", linewidth=0.5, label="Linear Error", color="#0082F5"
+        )
         self.controller_lin_lns = [self.control_lin_ln, self.error_linear_ln]
         self.ax[0].legend()
+
         self.x_linear_data, self.y_linear_data = [[], []], [[], []]
 
         # ---------------------------------------------------------------------
@@ -70,20 +80,22 @@ class Plotter(Node):
 
         # Angular Signal sub-plot
         (self.control_ang_ln,) = self.ax[1].plot(
-            [], [], "g", label="Control Angular Signal"
+            [], [], "g-", linewidth=1, label="Control Angular Signal"
         )
-        (self.error_angular_ln,) = self.ax[1].plot([], [], "c", label="Angular Error")
+        (self.error_angular_ln,) = self.ax[1].plot(
+            [], [], "-.c", linewidth=0.5, label="Angular Error"
+        )
         self.controller_ang_lns = [self.control_ang_ln, self.error_angular_ln]
         self.ax[1].legend()
         self.x_ang_data, self.y_ang_data = [[], []], [[], []]
 
         # Motors RPM sub-plot
         (self.rpm_fr,) = self.ax[2].plot([], [], "r", label="FR")
-        (self.rpm_rr,) = self.ax[2].plot([], [], "b", label="RR")
+        (self.rpm_rr,) = self.ax[2].plot([], [], ":b", label="RR")
         (self.rpm_rl,) = self.ax[2].plot([], [], "g", label="RL")
-        (self.rpm_fl,) = self.ax[2].plot([], [], "c", label="FL")
+        (self.rpm_fl,) = self.ax[2].plot([], [], ":c", label="FL")
         self.controller_rpm = [self.rpm_fr, self.rpm_rr, self.rpm_rl, self.rpm_fl]
-        self.ax[2].legend()
+        self.ax[2].legend(title="Motors")
         # Initializes list for storing complete rpm data.
         (self.x_rpm_data, self.y_rpm_data) = ([[], [], [], []], [[], [], [], []])
         # =============================================================================
@@ -131,17 +143,24 @@ class Plotter(Node):
         """!
         Function to set the initial plot status.
         """
-        self.ax[0].set_xlim(0, 10000)
+        self.ax[0].set_xlim(0, 10)
         self.ax[0].set_ylim(-3, 3)
-        self.ax[0].set_title("Linear Signal / Linear Error")
+        self.ax[0].set_title("Linear Signal / Linear Error", color="white")
 
-        self.ax[1].set_xlim(0, 10000)
+        self.ax[1].set_xlim(0, 10)
         self.ax[1].set_ylim(-3, 3)
-        self.ax[1].set_title("Angular Signal / Angular Error")
+        self.ax[1].set_title("Angular Signal / Angular Error", color="white")
 
-        self.ax[2].set_xlim(0, 10000)
-        self.ax[2].set_ylim(-170, 170)
-        self.ax[2].set_title("RPMs")
+        self.ax[2].set_xlim(0, 10)
+        self.ax[2].set_ylim(-200, 200)
+        self.ax[2].set_title("RPMs", color="white")
+
+        self.ax[0].tick_params(axis="x", colors="white")
+        self.ax[0].tick_params(axis="y", colors="white")
+        self.ax[1].tick_params(axis="x", colors="white")
+        self.ax[1].tick_params(axis="y", colors="white")
+        self.ax[2].tick_params(axis="x", colors="white")
+        self.ax[2].tick_params(axis="y", colors="white")
 
         return [self.controller_lin_lns, self.controller_ang_lns, self.controller_rpm]
 
@@ -164,6 +183,13 @@ class Plotter(Node):
         self.controller_rpm[1].set_data(self.x_rpm_data[1], self.y_rpm_data[1])
         self.controller_rpm[2].set_data(self.x_rpm_data[2], self.y_rpm_data[2])
         self.controller_rpm[3].set_data(self.x_rpm_data[3], self.y_rpm_data[3])
+
+        if self.x_linear_data[0] != []:
+            self.ax[0].set_xlim(min(self.x_linear_data[0]), max(self.x_linear_data[0]))
+        if self.x_ang_data[0] != []:
+            self.ax[1].set_xlim(min(self.x_ang_data[0]), max(self.x_ang_data[0]))
+        if self.x_rpm_data[0] != []:
+            self.ax[2].set_xlim(min(self.x_rpm_data[0]), max(self.x_rpm_data[0]))
 
         return [self.controller_lin_lns, self.controller_ang_lns, self.controller_rpm]
 
@@ -248,7 +274,11 @@ def main(args=None) -> None:
     # ---------------------------------------------------------------------
 
     ani = FuncAnimation(
-        plotter_node.fig, plotter_node.update_plot, init_func=plotter_node.plot_init
+        plotter_node.fig,
+        plotter_node.update_plot,
+        init_func=plotter_node.plot_init,
+        frames=200,
+        interval=20,
     )
 
     plt.show(block=True)

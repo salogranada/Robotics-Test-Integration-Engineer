@@ -2,7 +2,7 @@
 
 ---
 # FINAL PROJECT
-NAME: **WRITE YOUR NAME HERE**
+NAME: SALOMON GRANADA ULLOQUE
 
 ---
 **INSTRUCTIONS**:
@@ -275,6 +275,10 @@ Reference: https://www.youtube.com/watch?v=FW_ay7K4jPE
 
 7. [ROS2] What is the purpose of `CascadeLifecycleNode` type nodes?
 
+CascadeLifecycleNode allow us to handle lifecycle of the nodes (sorry for redundancy), that way with a manager node (in this case lifecycle_manager node) we can wake up or sleep nodes as we want for example for Save Battery Mode. Also we are capable of setting dependencies between nodes, for example if one node enters a state, the cascaded node will also enter that state.
+
+Reference: https://github.com/fmrico/cascade_lifecycle 
+
 8. [Robotics] Why is a global and a local `Odometry` calculated?
 
 Global and local Odometry is needed because we manage two frames of reference, world(global) and robot(local). With the local we will be able to know how much the robot has moved with respect to its initial position (0,0) in its own reference, but we also need the global to know the robots position in the world.
@@ -291,6 +295,10 @@ Reference: http://manpages.ubuntu.com/manpages/kinetic/en/man8/apt-get.8.html
 
 11. [Docker] If you modify a layer what happens with the previous and the next ones?
 
+Thanks to Layers Cache, Docker is able to identify which layers it has already built and which ones doesn't. Therefore, the layers previous to the changed layer are going to remain the same and are not needed to be built again (speeds up the process). The next layers will have to be built again.
+
+Reference: Curso Docker - Platzi.
+
 12. [Docker] Can we change the basic image (`FROM ubuntu:20.04`) from the docker file to another?
 
 We could but, we would have to build again the docker image, and will result in creating a new container from that new image. Also, depending on the layers that follow, we will have to check if every instruction is still persistent with that change. 
@@ -298,6 +306,10 @@ We could but, we would have to build again the docker image, and will result in 
 13. [C++] What is the [libsoft_speed.a](../robotics/ros2/src/motion_control/lib/) file and what is it for?
 
 14. [Python] Why should we use a thread to spin the node?
+
+It is convenient to use a thread to spin the node because that way we can handle better the subscription queue. In the case of the plotter, as we want to get real-time graphs, we don't want them to get interfered in the queues of other nodes. That's why spinning them in its own thread is a good idea.
+
+Reference: http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning 
 
 15. [Python] Why is the limit on the Y-RPM graph 170?
 
