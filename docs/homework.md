@@ -293,7 +293,7 @@ Therefore is needed to make Transforms to get to know one's frame position with 
 
 9. [Robotics] If the robot has 4 differential wheels, what type of chassis is it?
 
-I don't fully understand the question. It would be a 4WD chassis. 
+I don't fully understand the question. It would be a Skid Steer Drive chassis.
 
 10. [Docker] Explain with your own words what is the instructions `apt-get autoremove && apt-get clean -y` for?
 
@@ -309,7 +309,8 @@ Reference: Curso Docker - Platzi.
 
 12. [Docker] Can we change the basic image (`FROM ubuntu:20.04`) from the docker file to another?
 
-We could but, we would have to build again the docker image, and will result in creating a new container from that new image. Also, depending on the layers that follow, we will have to check if every instruction is still persistent with that change. 
+Depending on the layers that follow, we will have to check if every instruction is still persistent with that change. 
+For our case, we are running ROS2 Galactic and one of its requirements is Ubuntu 20.04. For avoiding unwanted bugs we shouldn't change the basic image.  
 
 13. [C++] What is the [libsoft_speed.a](../robotics/ros2/src/motion_control/lib/) file and what is it for?
 
@@ -320,7 +321,8 @@ Reference: https://stackoverflow.com/questions/1852941/why-create-a-a-file-from-
 
 14. [Python] Why should we use a thread to spin the node?
 
-It is convenient to use a thread to spin the node because that way we can handle better the subscription queue. In the case of the plotter, as we want to get real-time graphs, we don't want them to get interfered in the queues of other nodes. That's why spinning them in its own thread is a good idea.
+It is convenient to use a thread to spin the node because that way we can handle better the subscription queue. In the case of the plotter, as we want to get real-time graphs, we don't want them to get interfered in the queues of other nodes. 
+In this particular case, if we dont use a thread we won't be able to handle both process at the same time (getting subscription messages and plotting), plotting will be blocked. 
 
 Reference: http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning 
 

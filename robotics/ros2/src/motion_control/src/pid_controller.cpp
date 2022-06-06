@@ -27,7 +27,7 @@ float PIDController::ThrottlePID(float ref_vx, float cur_vx, double dt)
             return 0.0;
         }
         //proportional
-        m_vx_prop_ek1 = ref_vx -  cur_vx; //reference says "cur_vx" is a velocity, but it comes from odometry as position. Not sure to include "dt".
+        m_vx_prop_ek1 = ref_vx -  cur_vx*dt; //reference says "cur_vx" is a velocity, but it comes from odometry as position. Not sure to include "dt".
         float proportional_th = m_kp_thr * m_vx_prop_ek1;
         //integral
         m_vx_int_error += m_vx_prop_ek1*dt;
@@ -72,7 +72,7 @@ float PIDController::SteeringPID(float ref_wz, float cur_wz, double dt)
             return 0.0;
         }
         //proportional
-        m_wz_prop_ek1 = ref_wz -  cur_wz;
+        m_wz_prop_ek1 = ref_wz -  cur_wz*dt;
         float proportional_st = m_kp_str * m_wz_prop_ek1;
 
         //integral
