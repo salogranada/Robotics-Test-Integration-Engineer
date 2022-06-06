@@ -185,12 +185,30 @@ class Plotter(Node):
         self.controller_rpm[3].set_data(self.x_rpm_data[3], self.y_rpm_data[3])
 
         # Enable dynamic x-axis plotting
+        # Setup for linear graph
         if self.x_linear_data[0] != []:
-            self.ax[0].set_xlim(min(self.x_linear_data[0]), max(self.x_linear_data[0]))
+            if len(self.x_linear_data[0]) > 500:
+                self.ax[0].set_xlim(
+                    (max(self.x_linear_data[0]) - 500), max(self.x_linear_data[0])
+                )
+            else:
+                self.ax[0].set_xlim(0, max(self.x_linear_data[0]))
+        # Setup for angular graph
         if self.x_ang_data[0] != []:
-            self.ax[1].set_xlim(min(self.x_ang_data[0]), max(self.x_ang_data[0]))
+            if len(self.x_ang_data[0]) > 500:
+                self.ax[1].set_xlim(
+                    (max(self.x_ang_data[0]) - 500), max(self.x_ang_data[0])
+                )
+            else:
+                self.ax[1].set_xlim(0, max(self.x_ang_data[0]))
+        # Setup for rpm graph
         if self.x_rpm_data[0] != []:
-            self.ax[2].set_xlim(min(self.x_rpm_data[0]), max(self.x_rpm_data[0]))
+            if len(self.x_rpm_data[0]) > 500:
+                self.ax[2].set_xlim(
+                    (max(self.x_rpm_data[0]) - 500), max(self.x_rpm_data[0])
+                )
+            else:
+                self.ax[2].set_xlim(min(self.x_rpm_data[0]), max(self.x_rpm_data[0]))
 
         return [self.controller_lin_lns, self.controller_ang_lns, self.controller_rpm]
 
