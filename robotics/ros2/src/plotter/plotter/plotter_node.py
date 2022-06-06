@@ -48,14 +48,15 @@ class Plotter(Node):
             fontsize=18,
             fontstyle="oblique",
             fontweight="bold",
-            color="white",
+            color="#0082F5",
         )
         self.fig.set_size_inches(18.5, 10.5)
         self.fig.set_facecolor("#121A36")
         # =============================================================================
         # Controller Lines
         # =============================================================================
-
+        # self.im = plt.imread("/workspace/robotics/media/kiwibot_post.png")
+        # self.im = self.ax[0].imshow(self.im)
         # Linear
         (self.control_lin_ln,) = self.ax[0].plot(
             [], [], "r-", linewidth=1, label="Control Linear Signal"
