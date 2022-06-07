@@ -16,7 +16,7 @@ float PIDController::ThrottlePID(float ref_vx, float cur_vx, double dt)
      * Find Documentation here:
      * https://www.elprocus.com/the-working-of-a-pid-controller/
      ********************************************/
-
+    float lim_max_integ;
     // Is the controller was set to use it?
     if (m_throttle_ctrl)
     {   
@@ -27,13 +27,25 @@ float PIDController::ThrottlePID(float ref_vx, float cur_vx, double dt)
             return 0.0;
         }
         //proportional
-        m_vx_prop_ek1 = ref_vx -  cur_vx*dt; //reference says "cur_vx" is a velocity, but it comes from odometry as position. Not sure to include "dt".
+        m_vx_prop_ek1 = ref_vx -  cur_vx*dt;
         float proportional_th = m_kp_thr * m_vx_prop_ek1;
         //integral
         m_vx_int_error += m_vx_prop_ek1*dt;
         float integral_th = m_ki_thr * m_vx_int_error;
         //derivative
         float derivative_th = m_kd_thr * ((m_vx_prop_ek1 - m_prev_prop_error)/dt);
+
+        //Anti-windup
+        if (m_max_linear_spd > proportional_th){
+            lim_max_integ = m_max_linear_spd - proportional_th;
+        }
+        else{
+            lim_max_integ = 0.0f;
+        }
+        // Update Integrator
+        if (integral_th > lim_max_integ){
+            integral_th = lim_max_integ;
+        }
         
         //update error
         m_prev_prop_error = m_vx_prop_ek1;

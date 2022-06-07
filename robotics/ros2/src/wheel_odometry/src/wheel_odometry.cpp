@@ -220,8 +220,8 @@ void WheelOdometry::CalculateOdometry()
     float delta_Y = Y_dot * dt;
 
     // Don't forget the offset :smile:
-    float X = delta_X + m_imu_yaw_offset;
-    float Y = delta_Y + m_imu_yaw_offset;
+    float X = X + delta_X;
+    float Y = Y + delta_Y;
 
     m_local_wheel_odom_msg.pose.pose.position.x = X;
     m_local_wheel_odom_msg.pose.pose.position.y = Y;
@@ -273,8 +273,8 @@ void WheelOdometry::CalculateOdometry()
     float delta_Y_global = Y_dot_global * dt;
 
     // Don't forget the offset :smile:
-    float X_global = delta_X_global + m_imu_yaw_startup_offset;
-    float Y_global = delta_Y_global + m_imu_yaw_startup_offset;
+    float X_global = X_global + delta_X_global;
+    float Y_global = Y_global + delta_Y_global;
 
     m_global_wheel_odom_msg.pose.pose.position.x = X_global;
     m_global_wheel_odom_msg.pose.pose.position.y = Y_global;
