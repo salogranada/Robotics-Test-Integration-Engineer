@@ -39,6 +39,7 @@
 #include "std_msgs/msg/bool.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/int8.hpp"
 
 // ROS2 Services
 #include "std_srvs/srv/set_bool.hpp"
@@ -86,6 +87,7 @@ public:
         @return void
     */
     void CalculateOdometry();
+    void CheckRpm(); //Publisher function to play sound
 
     uint8_t m_state = TRANSITION_ACTIVATE;
 
@@ -93,6 +95,8 @@ private:
     // Publishers
     rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr
         m_wheel_odom_pub; /*!< Publish at topic /wheel_odometry/local_odometry */
+    rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::Int8>::SharedPtr
+        m_rpm_speaker_pub; /*!< Publish at topic m_speaker_sub */
     rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr
         m_wheel_odom_global_pub; /*!< Publish at topic /wheel_odometry/global_odometry */
     rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::Float32>::SharedPtr
@@ -175,6 +179,7 @@ private:
     float m_previous_x = 0.0f;
     float m_previous_y = 0.0f;
     std_msgs::msg::Float32 m_total_distance;
+    std_msgs::msg::Int8 track_num;
 };
 
 #endif

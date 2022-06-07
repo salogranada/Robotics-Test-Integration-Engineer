@@ -31,7 +31,7 @@ Speaker::Speaker(rclcpp::NodeOptions &options) : Node("speaker", "interfaces", o
      * https://docs.ros.org/en/foxy/Tutorials/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html#write-the-subscriber-node
      ********************************************/
     m_speaker_sub = this->create_subscription<std_msgs::msg::Int8>(
-        "m_speaker_sub",10, std::bind(&Speaker::speakerCb, this, std::placeholders::_1));
+        "m_speaker_sub",default_qos, std::bind(&Speaker::speakerCb, this, _1));
     /********************************************
      * END CODE
      ********************************************/

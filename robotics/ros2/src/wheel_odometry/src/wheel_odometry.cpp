@@ -15,6 +15,8 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn WheelO
 
     // Publishers
     m_wheel_odom_pub = this->create_publisher<nav_msgs::msg::Odometry>("/wheel_odometry/local_odometry", default_qos);
+    // pub for RPM speaker sound
+    m_rpm_speaker_pub = this->create_publisher<std_msgs::msg::Int8>("/interfaces/m_speaker_sub", default_qos);
 
     m_wheel_odom_global_pub =
         this->create_publisher<nav_msgs::msg::Odometry>("/wheel_odometry/global_odometry", default_qos);
@@ -51,6 +53,7 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn WheelO
     const rclcpp_lifecycle::State &)
 {
     m_wheel_odom_pub->on_activate();
+    m_rpm_speaker_pub->on_activate();
     m_wheel_odom_global_pub->on_activate();
     m_absolute_distance_pub->on_activate();
     m_state = TRANSITION_ACTIVATE;
@@ -62,6 +65,7 @@ rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn WheelO
 {
     m_state = TRANSITION_DEACTIVATE;
     m_wheel_odom_pub->on_deactivate();
+    m_rpm_speaker_pub->on_deactivate();
     m_wheel_odom_global_pub->on_deactivate();
     m_absolute_distance_pub->on_deactivate();
     return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
@@ -167,7 +171,21 @@ float WheelOdometry::CalculateSlipFactor(float kin_omega, float imu_omega)
 
     return alpha;
 }
-
+// If Front Right Wheel gets higher or lower than certain RPM, it makes a sound.
+void WheelOdometry::CheckRpm()
+{
+    if (m_state == TRANSITION_ACTIVATE)
+    {
+        if (m_motors_rpm.rpms_fr > 160){
+                track_num.data = 4;
+                m_rpm_speaker_pub->publish(track_num);
+            }
+        else if(m_motors_rpm.rpms_fr < -10){
+                track_num.data =  5;
+                m_rpm_speaker_pub->publish(track_num);
+            }
+    }
+}
 void WheelOdometry::CalculateOdometry()
 {
     /**
@@ -358,6 +376,7 @@ int main(int argc, char *argv[])
         if (odom_node->m_state == TRANSITION_ACTIVATE)
         {
             odom_node->CalculateOdometry();
+            odom_node->CheckRpm(); //Checks RPM to publish to play sound.
         }
         r.sleep();
     }
