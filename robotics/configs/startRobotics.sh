@@ -58,7 +58,7 @@ source "${PWD%}/configs/env_vars.sh"
 #  ----------------------------------------------------------------------
 # Delete previous workspaces
 
-if [ "$DELETE_BUILD" = "1" ] 
+if [ ! "$DELETE_BUILD" == "0" ] 
 then
   echo  [WARN]: "ROS2 Removing old shit ... "
   rm -r ${PWD%}/ros2/install || true
