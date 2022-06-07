@@ -45,6 +45,7 @@ set(DEPENDENCIES
 
 add_executable(wheel_odometry
   src/wheel_odometry.cpp
+  src/location_msg.cpp
 )
 
 target_link_libraries(wheel_odometry utils::utils)
