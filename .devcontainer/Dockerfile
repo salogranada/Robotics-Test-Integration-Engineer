@@ -138,7 +138,8 @@ RUN pip3 install -U pip \
 
 # ------------------------------------------------------------------------------
 # ROS2 CONFIGS - ROS2 CONFIGS - ROS2 CONFIGS - ROS2 CONFIGS - ROS2 CONFIGS - ROS2
-
+#Source ROS2   
+RUN /bin/echo "source install/setup.bash" >> /home/koda/.bashrc
 # Logging variables
 # https://index.ros.org/doc/ros2/Tutorials/Logging-and-logger-configuration/
 # # If you would like more or less verbose formatting
