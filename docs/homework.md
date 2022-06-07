@@ -349,6 +349,11 @@ For extra homework you should create a new branch from the developed one when yo
 7. **[+20%/5.0]:** Create a Node to fill a `LocationMsg.msg` [message](../robotics/ros2/src/usr_msgs/msg/location/LocationMsg.msg) and publish to a topic `/custom_gps` of the same type using the incoming GPS signals from two topics `/wifi_geo/fix -> from the router gps` and `/fix -> from the main gps` and `/imu/data -> from the IMU`. The `/wifi_geo/fix` has priority over the another one, but this signal is only published sometimes and after 20 seconds without receiving a new message from the wifi side the `/fix` signal take again the place. Note: the `/fix` signal is constantly publishing data.
 8. **[+5%/5.0]**: Add the `DELETE_BUILD` argument to the `startRobotics.sh` file (check line 61). Options : `--delete-build / -d`. Example: `startRobotics.sh -d 1` will delete the previous generated install, build, and log folders. Use 0 as default value.
 9. **[+5%/5.0]**: use `Valgrind` to analyses the `speed_controller` executable. [How to use it](./valgrind_usage.md). Why use `Valgrind`?
+
+Valgrind allow us to analyses the behavior of our program. Its most common use is to check the memory leak. For example, if we in a code forget the detroy objects or variables they will still occupy space in memory, blocking other variables to use it. Resulting in slow execution of our program. Valgrind allow us to identify those kind of things.
+
+Reference: https://valgrind.org/docs/manual/quick-start.html
+
 10. **[+15%/5.0]**: The plotter node graph just until 10000 in the X axis, look for a way to dynamically change this value whilst the data is coming. Also, the lower limit (0) should change and keep a distance of 500 for the upper limit.
 11. **[Max. +10%/5.0]**: Beauty the plotter. The best will get 10%, second one 5%. Reference Image:
 
