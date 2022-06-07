@@ -135,6 +135,35 @@ RUN pip3 install -U pip \
     # Plotter Tools
     matplotlib\
     && rm -rf /home/koda/.cache/pip
+# -----------------------------------------------------------------------------
+# Install openCV
+# RUN apt-get -qq update \
+#     && apt-get -qq install -y --no-install-recommends \
+#         build-essential \
+#         unzip \
+#         yasm \
+#         pkg-config \
+#         libswscale-dev \
+#         libtbb2 \
+#         libtbb-dev \
+#         libjpeg-dev \
+#         libpng-dev \
+#         libtiff-dev \
+#         libopenjp2-7-dev \
+#         libavformat-dev \
+#         libpq-dev libpng-dev libtiff-dev libdc1394-22-dev unzip
+
+# RUN cd \
+#     && wget https://github.com/opencv/opencv/archive/3.2.0.zip \
+#     && unzip 3.2.0.zip \
+#     && cd opencv-3.2.0 \
+#     && mkdir build \
+#     && cd build \
+#     && cmake .. \
+#     && make -j8 \
+#     && make install \
+#     && cd \
+#     && rm 3.2.0.zip
 
 # ------------------------------------------------------------------------------
 # ROS2 CONFIGS - ROS2 CONFIGS - ROS2 CONFIGS - ROS2 CONFIGS - ROS2 CONFIGS - ROS2
