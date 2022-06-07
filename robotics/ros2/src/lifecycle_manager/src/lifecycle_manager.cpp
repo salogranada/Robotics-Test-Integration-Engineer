@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
 
     lifecycle_node->add_activation("speed_controller");
     lifecycle_node->add_activation("wheel_odometry");
+    lifecycle_node->add_activation("rpm_convertor_node");
+
 
     /********************************************
      * ADD YOUR AMAZING RollOver Node

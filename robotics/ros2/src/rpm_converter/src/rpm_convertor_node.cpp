@@ -7,15 +7,10 @@
 
 #include "rpm_converter/rpm_converter.hpp"
 
-RpmConverter::RpmConverter(rclcpp::NodeOptions const &options)
-    : Node("rpm_converter", options)
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RpmConverter::on_configure(
+    const rclcpp_lifecycle::State &)
 {
-  RCLCPP_INFO(this->get_logger(), "RpmConverter constructor");
-
-  auto default_qos = rclcpp::QoS(rclcpp::SystemDefaultsQoS());
-
-  // Force to be reliable, some DDS have set defaultQoS to best effort
-  default_qos.reliable();
+    auto default_qos = rclcpp::QoS(rclcpp::SystemDefaultsQoS());
 
   // Publishers
   m_motors_rpm_out_pub =
@@ -29,7 +24,38 @@ RpmConverter::RpmConverter(rclcpp::NodeOptions const &options)
   // Timers
   m_publish_data_tmr = this->create_wall_timer(std::chrono::milliseconds(m_publish_time),
                                                std::bind(&RpmConverter::PublisherTmrCb, this));
+
 }
+
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RpmConverter::on_activate(
+    const rclcpp_lifecycle::State &)
+{
+    m_motors_rpm_out_pub->on_activate();
+    m_state = TRANSITION_ACTIVATE;
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
+}
+
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RpmConverter::on_deactivate(
+    const rclcpp_lifecycle::State &)
+{
+    m_state = TRANSITION_DEACTIVATE;
+    m_motors_rpm_out_pub->on_deactivate();
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
+}
+
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RpmConverter::on_cleanup(
+    const rclcpp_lifecycle::State &)
+{
+    m_state = TRANSITION_CLEANUP;
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
+}
+
+rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn RpmConverter::on_shutdown(
+    const rclcpp_lifecycle::State &)
+{
+    return rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn::SUCCESS;
+}
+
 
 void RpmConverter::SpeedControlOutCb(const geometry_msgs::msg::Twist::SharedPtr msg)
 {
@@ -180,18 +206,23 @@ int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
-  rclcpp::executors::SingleThreadedExecutor executor;
-
+  
   auto rpm_converter_node = std::make_shared<RpmConverter>(options);
-
+  auto executor =std::make_shared<rclcpp::executors::SingleThreadedExecutor>();;
   executor.add_node(rpm_converter_node);
 
   auto period = std::chrono::milliseconds(rpm_converter_node->m_publish_time);
   rclcpp::Rate r(period);
+
+  rpm_converter_node->trigger_transition(TRANSITION_CONFIGURE);
+  rpm_converter_node->trigger_transition(TRANSITION_ACTIVATE);
   while (rclcpp::ok())
   {
-    rpm_converter_node->PublishMotorsControl();
     executor.spin_some();
+    if (rpm_converter_node->m_state == TRANSITION_ACTIVATE)
+        {
+          rpm_converter_node->PublishMotorsControl();
+        }
     r.sleep();
   }
   rclcpp::shutdown();
