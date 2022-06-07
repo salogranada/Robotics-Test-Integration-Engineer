@@ -26,10 +26,13 @@ function parse_yaml {
 
 BUILD=1
 LAUNCH=1
+DELETE_BUILD=0
 for i in "$@"
 do
     case $i in
         -b|--build) BUILD="${2:-1}"
+        ;;
+        -d|--delete-build) DELETE_BUILD="${2:-1}"
         ;;
         -l|--launch) LAUNCH="${2:-1}"
         ;;
@@ -58,7 +61,7 @@ source "${PWD%}/configs/env_vars.sh"
 #  ----------------------------------------------------------------------
 # Delete previous workspaces
 
-if [ ! "$DELETE_BUILD" == "0" ] 
+if [ "$DELETE_BUILD" = "1" ] 
 then
   echo  [WARN]: "ROS2 Removing old shit ... "
   rm -r ${PWD%}/ros2/install || true
